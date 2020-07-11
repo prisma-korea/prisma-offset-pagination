@@ -9,6 +9,7 @@ interface Props<T> {
   };
   model: T;
   findManyArgs: any;
+  prisma: PrismaClient;
 }
 
 export interface PageCursorType {
@@ -23,10 +24,10 @@ export async function pageToCursorObject({
   pageInfo,
   model,
   findManyArgs,
+  prisma,
 }: Props<typeof model>): Promise<PageCursorType> {
   const { currentPage, size, totalPages } = pageInfo;
   let cursorId: number | string;
-  const prisma = new PrismaClient();
   const prismaModel = prisma[model.name.toLowerCase()];
 
   // first

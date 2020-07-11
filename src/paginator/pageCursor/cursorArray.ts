@@ -1,4 +1,5 @@
 import { PageCursorType, pageToCursorObject } from './cursorObject';
+import { PrismaClient } from '@prisma/client';
 
 interface Props<T> {
   start: number;
@@ -10,6 +11,7 @@ interface Props<T> {
   };
   model: T;
   findManyArgs: any;
+  prisma: PrismaClient;
 }
 
 // Returns an array of PageCursor objects
@@ -20,6 +22,7 @@ export async function pageCursorsToArray({
   pageInfo,
   model,
   findManyArgs,
+  prisma,
 }: Props<typeof model>): Promise<PageCursorType[]> {
   let page;
   const cursors = [];
@@ -29,6 +32,7 @@ export async function pageCursorsToArray({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     cursors.push(cursorResult);
   }

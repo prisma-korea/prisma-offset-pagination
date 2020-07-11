@@ -22,6 +22,7 @@ interface Props<T> {
   orderDirection: 'asc' | 'desc';
   whereArgs: any;
   IsWhereArgsString: boolean;
+  prisma: PrismaClient,
 }
 
 export async function cursorBasedOffsetPaginator({
@@ -34,6 +35,7 @@ export async function cursorBasedOffsetPaginator({
   orderDirection,
   whereArgs,
   IsWhereArgsString = false,
+  prisma,
 }: Props<typeof model>): Promise<PaginationType> {
   if ((!cursor || !currentPage) && !(!cursor && !currentPage)) {
     throw ErrorCursorOrCurrentPageArgNotGivenTogether();
@@ -45,7 +47,6 @@ export async function cursorBasedOffsetPaginator({
   }
 
   // totalCount
-  const prisma = new PrismaClient();
   const prismaModel = prisma[model.name.toLowerCase()];
   const totalCount = await prismaModel.count({
     where: {
@@ -113,6 +114,7 @@ export async function cursorBasedOffsetPaginator({
     model,
     findManyArgs,
     totalCount,
+    prisma,
   });
 
   return {

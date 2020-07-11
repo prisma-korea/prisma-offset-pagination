@@ -1,4 +1,5 @@
 import { PageCursorType, pageToCursorObject } from './cursorObject';
+import { PrismaClient } from '@prisma/client';
 import { pageCursorsToArray } from './cursorArray';
 
 // Returns the total number of pagination results capped to PAGE_NUMBER_CAP.
@@ -23,6 +24,7 @@ interface Props<T> {
   model: T;
   findManyArgs: any;
   totalCount: number;
+  prisma: PrismaClient;
 }
 
 export async function createPageCursors({
@@ -30,6 +32,7 @@ export async function createPageCursors({
   model,
   findManyArgs,
   totalCount,
+  prisma,
 }: Props<typeof model>): Promise<PageCursorsType> {
   // If buttonNum is even, bump it up by 1, and log out a warning.
   if (buttonNum % 2 === 0) {
@@ -59,6 +62,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors = {
       around,
@@ -70,6 +74,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     const around = await pageCursorsToArray({
       start: 1,
@@ -77,6 +82,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors = {
       last,
@@ -89,6 +95,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     const around = await pageCursorsToArray({
       start: totalPages - buttonNum + 2,
@@ -96,6 +103,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors = {
       first,
@@ -108,12 +116,14 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     const last = await pageToCursorObject({
       page: totalPages,
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     const offset = Math.floor((buttonNum - 3) / 2);
     const around = await pageCursorsToArray({
@@ -122,6 +132,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors = {
       first,
@@ -135,6 +146,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors.previous = previous;
   }
@@ -144,6 +156,7 @@ export async function createPageCursors({
       pageInfo,
       model,
       findManyArgs,
+      prisma,
     });
     pageCursors.next = next;
   }
