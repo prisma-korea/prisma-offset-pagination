@@ -1,6 +1,5 @@
 import { PageCursorsType, createPageCursors } from './pageCursor';
 import { ErrorCursorOrCurrentPageArgNotGivenTogether } from './pageError';
-import { PrismaClient } from '@prisma/client';
 
 interface PageEdgeType {
   cursor: string;
@@ -22,7 +21,7 @@ interface Props<T> {
   orderDirection: 'asc' | 'desc';
   whereArgs: any;
   IsWhereArgsString: boolean;
-  prisma: PrismaClient,
+  prisma: any,
 }
 
 export async function cursorBasedOffsetPaginator({

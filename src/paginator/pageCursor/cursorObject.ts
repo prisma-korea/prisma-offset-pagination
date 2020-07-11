@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 
 interface Props<T> {
   page: number;
@@ -9,7 +8,7 @@ interface Props<T> {
   };
   model: T;
   findManyArgs: any;
-  prisma: PrismaClient;
+  prisma: any;
 }
 
 export interface PageCursorType {

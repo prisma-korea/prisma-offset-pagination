@@ -1,5 +1,4 @@
 import { PageCursorType, pageToCursorObject } from './cursorObject';
-import { PrismaClient } from '@prisma/client';
 import { pageCursorsToArray } from './cursorArray';
 
 // Returns the total number of pagination results capped to PAGE_NUMBER_CAP.
@@ -24,7 +23,7 @@ interface Props<T> {
   model: T;
   findManyArgs: any;
   totalCount: number;
-  prisma: PrismaClient;
+  prisma: any;
 }
 
 export async function createPageCursors({

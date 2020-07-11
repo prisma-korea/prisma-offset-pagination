@@ -1,5 +1,4 @@
 import { PageCursorType, pageToCursorObject } from './cursorObject';
-import { PrismaClient } from '@prisma/client';
 
 interface Props<T> {
   start: number;
@@ -11,7 +10,7 @@ interface Props<T> {
   };
   model: T;
   findManyArgs: any;
-  prisma: PrismaClient;
+  prisma: any;
 }
 
 // Returns an array of PageCursor objects
