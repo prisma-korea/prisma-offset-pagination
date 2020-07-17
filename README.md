@@ -24,9 +24,9 @@ npm add prisma-offset-pagination
 ### # use module
 
 ```typescript
-import { PaginationType, cursorBasedOffsetPaginator } from 'prisma-offset-pagination';
+import { PaginationType, prismaOffsetPagination } from 'prisma-offset-pagination';
 
-const result = cursorBasedOffsetPaginator({
+const result = prismaOffsetPagination({
 	  model: User,
 	  currentPage,
 	  cursor,
@@ -196,7 +196,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prismaObject = new PrismaClient();
 
-const result = cursorBasedOffsetPaginator({
+const result = prismaOffsetPagination({
   ...
   prisma: prismaObject,
 });

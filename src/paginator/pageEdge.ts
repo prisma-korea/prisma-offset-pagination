@@ -24,7 +24,7 @@ interface Props<T> {
   prisma: any,
 }
 
-export async function cursorBasedOffsetPaginator({
+export async function prismaOffsetPagination({
   model,
   currentPage,
   cursor,
