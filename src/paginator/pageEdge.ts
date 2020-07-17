@@ -19,8 +19,8 @@ interface Props<T> {
   buttonNum: number;
   orderBy: string;
   orderDirection: 'asc' | 'desc';
-  whereArgs: any;
-  IsWhereArgsString: boolean;
+  where: any;
+  IsWhereString: boolean;
   prisma: any,
 }
 
@@ -32,24 +32,24 @@ export async function prismaOffsetPagination({
   buttonNum,
   orderBy,
   orderDirection,
-  whereArgs,
-  IsWhereArgsString = false,
+  where,
+  IsWhereString = false,
   prisma,
 }: Props<typeof model>): Promise<PaginationType> {
   if ((!cursor || !currentPage) && !(!cursor && !currentPage)) {
     throw ErrorCursorOrCurrentPageArgNotGivenTogether();
   }
 
-  // IsWhereArgsString
-  if (IsWhereArgsString && whereArgs) {
-    whereArgs = JSON.parse(whereArgs.replace(/'/g, '"'));
+  // IsWhereString
+  if (IsWhereString && where) {
+    where = JSON.parse(where.replace(/'/g, '"'));
   }
 
   // totalCount
   const prismaModel = prisma[model.name.toLowerCase()];
   const totalCount = await prismaModel.count({
     where: {
-      ...whereArgs,
+      ...where,
     },
   });
 
@@ -68,8 +68,8 @@ export async function prismaOffsetPagination({
 
   // findManyArgs
   let findManyArgs;
-  if (whereArgs) {
-    findManyArgs = { ...findManyArgs, where: { ...whereArgs } };
+  if (where) {
+    findManyArgs = { ...findManyArgs, where: { ...where } };
   }
   if (size) {
     findManyArgs = { ...findManyArgs, take: size };

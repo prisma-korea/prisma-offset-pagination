@@ -34,7 +34,7 @@ const result = prismaOffsetPagination({
 	  buttonNum,
 	  orderBy,
 	  orderDirection,
-	  whereArgs,
+	  where,
 });
 ```
 
@@ -203,10 +203,10 @@ const result = prismaOffsetPagination({
 
 ```
 
-`isWhereArgsString` (optional) \
-: Receive boolean value to decide whether to parse string type `whereArgs` parameter or not.
+`isWhereString` (optional) \
+: Receive boolean value to decide whether to parse string type `where` parameter or not.
 
-`whereArgs` (optional) \
+`where` (optional) \
 : Receive Prisma2-style where options
 For the more information, look up Prisma2's documentation about filtering
 https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/filtering
@@ -219,7 +219,7 @@ ex)
 ```javascript
 a) javascript object type
 
-const whereArgs = {
+const where = {
     posts: {
       some: {
         published: true,
@@ -230,13 +230,13 @@ const whereArgs = {
 
 b) string type
 
-whereArgs: "{ 'posts': { 'some': { published: true } } }"
+where: "{ 'posts': { 'some': { published: true } } }"
 ```
 
 ```javascript
 a) javascript object type
 
-const whereArgs = {
+const where = {
     gender: {
       in: ['female', 'male'],
     }
@@ -245,13 +245,13 @@ const whereArgs = {
 
 b) string type
 
-whereArgs: "{ 'gender': { 'in': ['female', 'male'] } }"
+where: "{ 'gender': { 'in': ['female', 'male'] } }"
 ```
 
 ```javascript
 a) javascript object type
 
-whereArgs: {
+where: {
     createdAt: {
       gte: '2020-07-07T08:58:57.001Z',
     }
@@ -260,7 +260,7 @@ whereArgs: {
 
 b) string type
 
-const whereArgs = "{ 'createdAt' : { 'gte' : '2020-07-07T08:58:57.001Z' } }"
+const where = "{ 'createdAt' : { 'gte' : '2020-07-07T08:58:57.001Z' } }"
 ```
 
 ( * When you filter time date, should use 'ISO 8601' type as above. Otherwise, Prisma2 doesn't understand the DateTime value. You can make 'ISO 8601' type date using ["Date.prototype.toISOString()"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) )
@@ -268,7 +268,7 @@ const whereArgs = "{ 'createdAt' : { 'gte' : '2020-07-07T08:58:57.001Z' } }"
 ```javascript
 a) javascript object type
 
-const whereArgs = {
+const where = {
   OR: [
     {
       email: {
@@ -285,7 +285,7 @@ const whereArgs = {
 
 b) string type
 
-const whereArgs = "{ 'OR': [{ 'email': { 'contains': 'smallbee' }}, {'createdAt' : { 'gt' : '2020-07-07T03:40:00.000Z' } }] }"
+const where = "{ 'OR': [{ 'email': { 'contains': 'smallbee' }}, {'createdAt' : { 'gt' : '2020-07-07T03:40:00.000Z' } }] }"
 ```
 
 <br />
