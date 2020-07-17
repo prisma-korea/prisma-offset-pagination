@@ -1,6 +1,6 @@
 # prisma-offset-pagination
 
-> Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination
+> The fastest Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination
 
 [![Npm Version](https://img.shields.io/badge/npm%20package-0.1.3-brightgreen)](https://npmjs.com/package/prisma-offset-pagination)
 ![License](https://img.shields.io/badge/license-MIT-blue)
