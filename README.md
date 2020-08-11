@@ -1,13 +1,13 @@
 # prisma-offset-pagination
 
-> The fastest Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination
+> Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination
 
-[![Npm Version](https://img.shields.io/badge/npm%20package-0.1.3-brightgreen)](https://npmjs.com/package/prisma-offset-pagination)
+[![Npm Version](https://img.shields.io/badge/npm%20package-0.0.1-brightgreen)](https://npmjs.com/package/cursor-based-offset-pagination)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 <br />
 
-## Installation
+# Installation
 
 `npm`
 ```
@@ -19,37 +19,41 @@ npm install prisma-offset-pagination
 npm add prisma-offset-pagination
 ```
 
-## Usage
+
+# Usage
 
 ### # use module
-
 ```typescript
-import { PaginationType, prismaOffsetPagination } from 'prisma-offset-pagination';
+import { prismaOffsetPagination } from 'prisma-offset-pagination';
 
+...
 const result = prismaOffsetPagination({
-	  model: User,
-	  currentPage,
-	  cursor,
-	  size,
-	  buttonNum,
-	  orderBy,
-	  orderDirection,
-	  where,
+    model: User,
+    cursor: <cursor>,
+    size: 5,
+    buttonNum: 7,
+    orderBy: 'id',
+    orderDirection: 'desc',
+    where: {
+      email: {
+        contains: 'smallbee',
+      },
+    },
 });
 ```
 
 ### # GraphQL Query
-
 ```graphql
 query {
   users(
-      currentPage: 3
       cursor: "c2FsdHlzYWx0Y2tjYTJxOGZqMDA2MGI5cnc1bTYyaHVveg=="
-      size: 2
-      buttonNum: 5
+      size: 5
+      buttonNum: 7
       orderBy: "createdAt"
       orderDirection: "asc"
-      where: "{ 'email': { 'contains': 'smallbee' } }"
+      where: email: {
+        contains: 'smallbee',
+      }
   ) {
     pageEdges {
       cursor
@@ -91,7 +95,6 @@ query {
 ```
 
 ### # Query Result
-
 ```graphql
 {
     "data": {
@@ -153,7 +156,8 @@ query {
                     "page": 7,
                     "isCurrent": false
                 }
-            }
+            },
+            totalCount
         }
     }
 }
@@ -161,16 +165,12 @@ query {
 
 ### # Parameters
 
-`model: User` \
+`model` \
 : Receive model object that you want to implement pagination
 
-`currentPage` (optional) \
-: Receive page that you want to move \
-(* currentPage should be given with cursor parameter )
-
 `cursor` (optional) \
-: Receive cursor of the page that you want to move \
-(* cursor should be given with currentPage parameter )
+: Receive cursor of the page you want to navigate
+(* If cursor is null, return the result of the first page)
 
 `size` \
 : Receive the number of row in the page
@@ -184,7 +184,10 @@ query {
 : Receive one of model field
 
 `orderDirection` (optional) \
-: Receive one of 'asc' | 'desc'
+: Receive 'asc' or 'desc'
+
+`include` (optional) \
+: Receive include option of Prisma
 
 `prisma` \
 : Receive prisma object
@@ -196,6 +199,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prismaObject = new PrismaClient();
 
+
 const result = prismaOffsetPagination({
   ...
   prisma: prismaObject,
@@ -203,22 +207,16 @@ const result = prismaOffsetPagination({
 
 ```
 
-`isWhereString` (optional) \
-: Receive boolean value to decide whether to parse string type `where` parameter or not.
-
 `where` (optional) \
 : Receive Prisma2-style where options
 For the more information, look up Prisma2's documentation about filtering
 https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/filtering
 
-The value could be either string of JSON type or javascript object. \
-When the value is string type, it has to be valid JSON type. For instance, where: "{ posts: { some: { published: true }, }, };" is not valid JSON type because of comma(,) and semicolon(;).
+The value should be a valid JSON object type.
 
 ex)
 
 ```javascript
-a) javascript object type
-
 const where = {
     posts: {
       some: {
@@ -226,48 +224,27 @@ const where = {
       }
     }
   }
-
-
-b) string type
-
-where: "{ 'posts': { 'some': { published: true } } }"
 ```
 
 ```javascript
-a) javascript object type
-
 const where = {
     gender: {
       in: ['female', 'male'],
     }
   }
-
-
-b) string type
-
-where: "{ 'gender': { 'in': ['female', 'male'] } }"
 ```
 
 ```javascript
-a) javascript object type
-
 where: {
     createdAt: {
       gte: '2020-07-07T08:58:57.001Z',
     }
   }
-
-
-b) string type
-
-const where = "{ 'createdAt' : { 'gte' : '2020-07-07T08:58:57.001Z' } }"
 ```
 
 ( * When you filter time date, should use 'ISO 8601' type as above. Otherwise, Prisma2 doesn't understand the DateTime value. You can make 'ISO 8601' type date using ["Date.prototype.toISOString()"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) )
 
 ```javascript
-a) javascript object type
-
 const where = {
   OR: [
     {
@@ -282,10 +259,6 @@ const where = {
     }
   ]
 }
-
-b) string type
-
-const where = "{ 'OR': [{ 'email': { 'contains': 'smallbee' }}, {'createdAt' : { 'gt' : '2020-07-07T03:40:00.000Z' } }] }"
 ```
 
 <br />
@@ -440,23 +413,5 @@ As paginating using cursor, there will be no duplicated data showed up on the li
 ### 3. Work with ordering and complex where options
 
 As Prisma client is still fast with complex where filtering options and ordering, this paginator is fast too with those conditions.
-
-<br />
-
-## Limitations
-
-### 1. Parameter 'currentPage' and 'cursor' should be given together
-
-This is because the paginator can only work with those two data.
-But, when you paginate with the first page, just don't give both 'currentPage' and 'cursor', then the pagination result for the first page will be returned.
-
-### 2. 'currentPage' should be correct
-
-If you pass the wrong 'currentPage' data with correct 'cursor' data, paginator still works supposing the 'currrentPage' data is valid data. But, the page information of result data is incorrect.
-'currentPage' data is not validated by paginator intentionally for the performance issue.
-
-### 3. The way the first and the last page work could be a bit different from other pages do
-
-When new data inserted to the list and you are paginating from the midst of the page to the first page or last page, the result of the first or last page could be not what you expect. This happens because the cursor system of the first page is different from the second and the other pages to sync the first page cursor.
 
 <br />
