@@ -1,5 +1,10 @@
 import { PageCursorType, pageToCursorObject } from './cursorObject';
-import { pageCursorsToArray } from './cursorArray';
+import {
+  pageCursorsToArray,
+  pageCursorsToArrayInTheMiddle,
+  pageCursorsToArrayNearTheBeginning,
+  pageCursorsToArrayNearTheEnd,
+} from './cursorArray';
 
 // Returns the total number of pagination results capped to PAGE_NUMBER_CAP.
 export function computeTotalPages(totalCount: number, size: number): number {
@@ -19,18 +24,17 @@ interface Props<T> {
     currentPage: number;
     size: number;
     buttonNum: number;
+    totalCount: number;
   };
   model: T;
   findManyArgs: any;
-  totalCount: number;
   prisma: any;
 }
 
 export async function createPageCursors({
-  pageInfo: { currentPage, size, buttonNum },
+  pageInfo: { currentPage, size, buttonNum, totalCount },
   model,
   findManyArgs,
-  totalCount,
   prisma,
 }: Props<typeof model>): Promise<PageCursorsType> {
   // If buttonNum is even, bump it up by 1, and log out a warning.
@@ -46,7 +50,7 @@ export async function createPageCursors({
 
   let pageCursors;
   const totalPages = computeTotalPages(totalCount, size);
-  const pageInfo = { currentPage, size, totalPages };
+  const pageInfo = { currentPage, size, totalCount, totalPages };
 
   // Degenerate case of no records found. 1 / 1 / 1
   if (totalPages === 0) {
@@ -55,7 +59,7 @@ export async function createPageCursors({
     };
   } else if (totalPages <= buttonNum) {
     // Collection is short, and `around` includes page 1 and the last page. 1 / 1 2 3 / 7
-    const around = await pageCursorsToArray({
+    const around = await pageCursorsToArrayNearTheBeginning({
       start: 1,
       end: totalPages,
       pageInfo,
@@ -75,7 +79,7 @@ export async function createPageCursors({
       findManyArgs,
       prisma,
     });
-    const around = await pageCursorsToArray({
+    const around = await pageCursorsToArrayNearTheBeginning({
       start: 1,
       end: buttonNum - 1,
       pageInfo,
@@ -83,6 +87,7 @@ export async function createPageCursors({
       findManyArgs,
       prisma,
     });
+
     pageCursors = {
       last,
       around,
@@ -96,7 +101,7 @@ export async function createPageCursors({
       findManyArgs,
       prisma,
     });
-    const around = await pageCursorsToArray({
+    const around = await pageCursorsToArrayNearTheEnd({
       start: totalPages - buttonNum + 2,
       end: totalPages,
       pageInfo,
@@ -125,7 +130,7 @@ export async function createPageCursors({
       prisma,
     });
     const offset = Math.floor((buttonNum - 3) / 2);
-    const around = await pageCursorsToArray({
+    const around = await pageCursorsToArrayInTheMiddle({
       start: currentPage - offset,
       end: currentPage + offset,
       pageInfo,
@@ -139,25 +144,22 @@ export async function createPageCursors({
       last,
     };
   }
+
+  // previous
   if (currentPage > 1 && totalPages > 1) {
-    const previous = await pageToCursorObject({
-      page: currentPage - 1,
-      pageInfo,
-      model,
-      findManyArgs,
-      prisma,
+    pageCursors.around.map((item, index) => {
+      if (item.isCurrent) {
+        pageCursors.previous = pageCursors.around[index - 1];
+      }
     });
-    pageCursors.previous = previous;
   }
+  // next
   if (totalPages > currentPage) {
-    const next = await pageToCursorObject({
-      page: currentPage + 1,
-      pageInfo,
-      model,
-      findManyArgs,
-      prisma,
+    pageCursors.around.map((item, index) => {
+      if (item.isCurrent) {
+        pageCursors.next = pageCursors.around[index + 1];
+      }
     });
-    pageCursors.next = next;
   }
   return pageCursors;
 }
