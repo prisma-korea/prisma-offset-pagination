@@ -1,28 +1,44 @@
-# prisma-offset-pagination
+# Prisma Offset Pagination
 
-> Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination
+<div>
 
 [![Npm Version](https://img.shields.io/badge/npm%20package-0.0.1-brightgreen)](https://npmjs.com/package/cursor-based-offset-pagination)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-<br />
+</div>
 
-# Installation
+Offset Pagination based on cursor system to enhance the paginating speed to the point of Cursor Pagination.
 
-`npm`
+More explanation about the package, you can read the medium article [here](https://medium.com/@smallbee/super-fast-offset-pagination-with-prisma2-21db93e5cc90).
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Use Module](#use-module)
+  - [GraphQL Query](#graphql-query)
+  - [Query Result](#query-result)
+  - [Parameters](#parameters)
+- [Description](#description)
+- [Features](#features)
+
+
+## Installation
+
+### NPM
+
 ```
 npm install prisma-offset-pagination
 ```
 
-`yarn`
+### Yarn
+
 ```
-npm add prisma-offset-pagination
+yarn add prisma-offset-pagination
 ```
 
 
-# Usage
+## Usage
 
-### # use module
+### Use Module
 ```typescript
 import { prismaOffsetPagination } from 'prisma-offset-pagination';
 
@@ -42,7 +58,7 @@ const result = prismaOffsetPagination({
 });
 ```
 
-### # GraphQL Query
+### GraphQL Query
 ```graphql
 query {
   users(
@@ -94,7 +110,7 @@ query {
 }
 ```
 
-### # Query Result
+### Query Result
 ```graphql
 {
     "data": {
@@ -163,7 +179,7 @@ query {
 }
 ```
 
-### # Parameters
+### Parameters
 
 `model` \
 : Receive model object that you want to implement pagination
