@@ -2,8 +2,9 @@
 
 <div>
 
-[![Npm Version](https://img.shields.io/badge/npm%20package-0.0.1-brightgreen)](https://npmjs.com/package/cursor-based-offset-pagination)
-![License](https://img.shields.io/badge/license-MIT-blue)
+[![Version](http://img.shields.io/npm/v/react-native-iap.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
+[![Download](http://img.shields.io/npm/dm/react-native-iap.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
+[![License](https://img.shields.io/npm/l/react-native-iap.svg)](https://npmjs.org/package/prisma-offset-pagination)
 
 </div>
 
