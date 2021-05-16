@@ -2,9 +2,9 @@
 
 <div>
 
-[![Version](http://img.shields.io/npm/v/react-native-iap.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
-[![Download](http://img.shields.io/npm/dm/react-native-iap.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
-[![License](https://img.shields.io/npm/l/react-native-iap.svg)](https://npmjs.org/package/prisma-offset-pagination)
+[![Version](http://img.shields.io/npm/v/prisma-offset-pagination.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
+[![Download](http://img.shields.io/npm/dm/prisma-offset-pagination.svg?style=flat-square)](https://npmjs.org/package/prisma-offset-pagination)
+[![License](https://img.shields.io/npm/l/prisma-offset-pagination.svg)](https://npmjs.org/package/prisma-offset-pagination)
 
 </div>
 
