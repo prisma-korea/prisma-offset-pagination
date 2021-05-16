@@ -9,7 +9,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm -s run clean && tsc",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "prepublish": "tsc"
   },
   "devDependencies": {
     "@types/node": "^14.0.22",
