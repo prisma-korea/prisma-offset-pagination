@@ -1,6 +1,8 @@
 {
   "baseUrl": "types",
-  "typeRoots": ["types"],
+  "typeRoots": [
+    "types"
+  ],
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -10,18 +12,18 @@
     "esModuleInterop": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "declaration":false,
-    "noLib":false,
-    "sourceMap":true,
-    "pretty":true,
-    "allowUnreachableCode":true,
-    "allowUnusedLabels":true,
-    "noImplicitAny":false,
-    "noImplicitReturns":false,
-    "noImplicitUseStrict":false,
-    "outDir":"dist/",
-    "baseUrl":"src/",
-    "listFiles":false,
+    "declaration": true,
+    "noLib": false,
+    "sourceMap": true,
+    "pretty": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitUseStrict": false,
+    "outDir": "dist/",
+    "baseUrl": "src/",
+    "listFiles": false,
     "skipLibCheck": true
   },
   "include": [

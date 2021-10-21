@@ -3,6 +3,7 @@
   "version": "0.0.4",
   "description": "prisma-offset-pagination",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:dooboolab/prisma-offset-pagination.git",
   "author": "smallbee3 <smallbee3@gmail.com>",
   "license": "MIT",

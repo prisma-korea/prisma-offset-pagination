@@ -13,13 +13,13 @@ export interface PaginationType {
 
 interface Props<T> {
   model: T;
-  cursor: string;
+  cursor?: string;
   size: number;
   buttonNum: number;
-  orderBy: string;
-  orderDirection: 'asc' | 'desc';
-  include: any;
-  where: any;
+  orderBy?: string;
+  orderDirection?: 'asc' | 'desc';
+  include?: any;
+  where?: any;
   prisma: any;
 }
 
