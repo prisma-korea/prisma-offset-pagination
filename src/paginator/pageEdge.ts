@@ -19,6 +19,7 @@ interface Props<T> {
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   include?: any;
+  select?: any;
   where?: any;
   prisma: any;
 }
@@ -31,6 +32,7 @@ export async function prismaOffsetPagination({
   orderBy,
   orderDirection,
   include,
+  select,
   where,
   prisma,
 }: Props<typeof model>): Promise<PaginationType> {
@@ -67,8 +69,11 @@ export async function prismaOffsetPagination({
   if (orderBy) {
     findManyArgs = { ...findManyArgs, orderBy: { [orderBy]: orderDirection } };
   }
-  if (include) {
+  if (include && !select) {
     findManyArgs = { ...findManyArgs, include: include };
+  }
+  if (select && !include) {
+    findManyArgs = { ...findManyArgs, select: select };
   }
 
   // cursor & currentPage
@@ -76,7 +81,7 @@ export async function prismaOffsetPagination({
   if (cursor) {
     const prismaModel = prisma[model.name.toLowerCase()];
     const decryptedCursor = Buffer.from(cursor, 'base64').toString('ascii').slice(9);
-    let idOrigin: number | string = isNaN(parseInt(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
+    let idOrigin: number | string = isNaN(Number(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
 
     // findManyArgsForCursorCount -> cursorCount -> currentPage
     let findManyArgsForCursorCount: Record<string, any>;

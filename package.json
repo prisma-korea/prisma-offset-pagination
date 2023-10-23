@@ -1,6 +1,6 @@
 {
   "name": "prisma-offset-pagination",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "prisma-offset-pagination",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
