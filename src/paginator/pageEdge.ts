@@ -19,6 +19,7 @@ interface Props<T> {
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   include?: any;
+  select:?: any;
   where?: any;
   prisma: any;
 }
@@ -67,8 +68,11 @@ export async function prismaOffsetPagination({
   if (orderBy) {
     findManyArgs = { ...findManyArgs, orderBy: { [orderBy]: orderDirection } };
   }
-  if (include) {
+  if (include && !select) {
     findManyArgs = { ...findManyArgs, include: include };
+  }
+  if (select && !include) {
+    findManyArgs = { ...findManyArgs, select: select };
   }
 
   // cursor & currentPage
