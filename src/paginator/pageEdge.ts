@@ -19,7 +19,7 @@ interface Props<T> {
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   include?: any;
-  select:?: any;
+  select?: any;
   where?: any;
   prisma: any;
 }
