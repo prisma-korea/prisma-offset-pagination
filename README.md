@@ -206,6 +206,9 @@ query {
 `include` (optional) \
 : Receive include option of Prisma
 
+`select` (optional) \
+: Receive select option of Prisma
+
 `prisma` \
 : Receive prisma object
 
