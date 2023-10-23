@@ -32,6 +32,7 @@ export async function prismaOffsetPagination({
   orderBy,
   orderDirection,
   include,
+  select,
   where,
   prisma,
 }: Props<typeof model>): Promise<PaginationType> {
