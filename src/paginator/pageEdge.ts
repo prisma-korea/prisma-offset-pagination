@@ -73,10 +73,10 @@ export async function prismaOffsetPagination({
 
   // cursor & currentPage
   let currentPage: number;
-  if (cursor) {
+  if (cursor) 
     const prismaModel = prisma[model.name.toLowerCase()];
     const decryptedCursor = Buffer.from(cursor, 'base64').toString('ascii').slice(9);
-    let idOrigin: number | string = isNaN(parseInt(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
+    let idOrigin: number | string = isNaN(parseInt(decryptedCursor)) ? decryptedCursor : isNaN(Number(decryptedCursor)) ? decryptedCursor : Number(decryptedCursor);
 
     // findManyArgsForCursorCount -> cursorCount -> currentPage
     let findManyArgsForCursorCount: Record<string, any>;
