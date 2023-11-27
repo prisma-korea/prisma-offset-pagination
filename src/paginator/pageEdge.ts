@@ -95,11 +95,11 @@ export async function prismaOffsetPagination({
       });
       const whereArgs = orderDirection === 'desc' ? {
         [orderBy]: {
-          gte: cursorObject[0][orderBy],
+          gte: cursorObject[0][orderBy] == undefined ? undefined : cursorObject[0][orderBy],
         },
       } : {
         [orderBy]: {
-          lte: cursorObject[0][orderBy],
+          lte: cursorObject[0][orderBy] == undefined ? undefined : cursorObject[0][orderBy],
         },
       };
       findManyArgsForCursorCount = {
